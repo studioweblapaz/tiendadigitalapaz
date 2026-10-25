@@ -41,7 +41,6 @@
         .btn-delete { background: #e74c3c; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 0.5rem; }
         .btn-edit { background: #3498db; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
         
-        /* NUEVO: Cuadrícula para los pedidos */
         .orders-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -73,7 +72,7 @@
             to { transform: translateX(0); opacity: 1; }
         }
     </style>
-        <link rel="manifest" href="manifest-admin.json">
+    <link rel="manifest" href="manifest-admin.json">
     <meta name="theme-color" content="#2c3e50">
     <script>
         if ('serviceWorker' in navigator) {
@@ -103,7 +102,6 @@
 
         <!-- TAB PEDIDOS -->
         <div id="tab-pedidos" class="tab-content active">
-            <!-- ESTADÍSTICAS (Centradas y con ancho máximo) -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin: 0 auto 2rem auto; max-width: 1000px;">
                 <div style="background: white; padding: 1.2rem; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                     <div style="font-size: 2rem; font-weight: 700; color: #ff6b35; margin-bottom: 0.3rem;" id="stat-new">0</div>
@@ -124,8 +122,6 @@
             </div>
             
             <h3 style="margin-bottom: 1rem; text-align: center; color: #2c3e50;">Pedidos Recientes</h3>
-            
-            <!-- CONTENEDOR DE PEDIDOS EN CUADRÍCULA -->
             <div id="orders-container" class="orders-grid"></div>
         </div>
 
@@ -139,8 +135,13 @@
                     <input type="text" id="prod-name" placeholder="Ej: Nombre del producto">
                 </div>
                 <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="prod-desc" rows="2" placeholder="Ej: Descripción corta del prodcuto"></textarea>
+                    <label>Descripción Corta</label>
+                    <textarea id="prod-desc" rows="2" placeholder="Ej: Descripción breve que se ve en la tarjeta"></textarea>
+                </div>
+                <!-- NUEVO CAMPO PARA DESCRIPCIÓN DETALLADA -->
+                <div class="form-group">
+                    <label>Descripción Detallada (para la ventana emergente)</label>
+                    <textarea id="prod-detailed-desc" rows="4" placeholder="Ej: Incluye 12 rosas rojas, follaje verde, envoltura premium y tarjeta. Tamaño: 40cm."></textarea>
                 </div>
                 <div style="display: flex; gap: 1rem;">
                     <div class="form-group" style="flex: 1;">
@@ -175,7 +176,6 @@
         <div id="tab-config" class="tab-content">
             <div style="background: white; padding: 1.5rem; border-radius: 10px; max-width: 800px; margin: 0 auto;">
                 <h3 style="margin-bottom: 1rem;">Apariencia de la Tienda</h3>
-                
                 <div class="form-group">
                     <label>Logo de la Tienda (imagen)</label>
                     <input type="file" id="cfg-logo-file" accept="image/*">
@@ -183,22 +183,18 @@
                     <input type="hidden" id="cfg-logo-url">
                     <p style="font-size: 0.8rem; color: #666; margin-top: 0.3rem;">Recomendado: imagen cuadrada, fondo transparente (PNG)</p>
                 </div>
-
                 <div class="form-group">
                     <label>Emoji/Ícono del header (opcional)</label>
                     <input type="text" id="cfg-emoji" placeholder="Ej: 🍔, 🍕, ☕" maxlength="4">
                 </div>
-
                 <div class="form-group">
                     <label>Nombre de la tienda</label>
                     <input type="text" id="cfg-name" placeholder="Mi Restaurante">
                 </div>
-
                 <div class="form-group">
                     <label>Eslogan / Subtítulo</label>
                     <input type="text" id="cfg-tagline" placeholder="Los mejores platillos/productos de la ciudad">
                 </div>
-
                 <div style="display: flex; gap: 1rem;">
                     <div class="form-group" style="flex: 1;">
                         <label>Color Principal</label>
@@ -209,30 +205,24 @@
                         <input type="color" id="cfg-secondary" value="#2c3e50">
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label>Color de Fondo</label>
                     <input type="color" id="cfg-background" value="#f8f9fa">
                 </div>
-
                 <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #eee;">
                 <h3 style="margin-bottom: 1rem;">Información de Contacto</h3>
-
                 <div class="form-group">
                     <label>Dirección</label>
                     <input type="text" id="cfg-address" placeholder="Ej: Av. Principal #123, Ciudad">
                 </div>
-
                 <div class="form-group">
                     <label>Horario</label>
                     <input type="text" id="cfg-hours" placeholder="Ej: Lun-Dom: 12:00 - 22:00">
                 </div>
-
                 <div class="form-group">
                     <label>Teléfono / WhatsApp</label>
                     <input type="text" id="cfg-phone" placeholder="Ej: 61 2443 3992">
                 </div>
-
                 <button class="btn-save" onclick="saveConfig()">💾 Guardar Toda la Configuración</button>
             </div>
         </div>
@@ -242,10 +232,8 @@
     <div id="historical-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 9998; align-items: center; justify-content: center; padding: 1rem;">
         <div style="background: white; border-radius: 15px; max-width: 600px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 2rem; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
             <button onclick="closeHistoricalModal()" style="position: absolute; top: 15px; right: 15px; background: #e74c3c; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; font-weight: 700;">✕</button>
-            
             <h2 style="margin-bottom: 0.5rem; color: #2c3e50;">📊 Ventas Históricas</h2>
             <p style="color: #666; margin-bottom: 1.5rem; font-size: 0.9rem;">Desglose de ventas por día</p>
-            
             <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
                 <div>
                     <div style="font-size: 0.85rem; color: #666;">Total Histórico</div>
@@ -256,7 +244,6 @@
                     <div style="font-size: 1.5rem; font-weight: 700; color: #ff6b35;" id="modal-count">0</div>
                 </div>
             </div>
-            
             <div id="daily-breakdown"></div>
         </div>
     </div>
@@ -272,7 +259,7 @@
             authDomain: "tienda-digital-32a30.firebaseapp.com",
             projectId: "tienda-digital-32a30",
             storageBucket: "tienda-digital-32a30.firebasestorage.app",
-            messagingSenderId: "5989141190509",
+            messagingSenderId: "989141190509",
             appId: "1:989141190509:web:08dcb840d3c5ed79f47c64"
         };
 
@@ -501,6 +488,7 @@
             const editId = document.getElementById('edit-product-id').value;
             const name = document.getElementById('prod-name').value;
             const desc = document.getElementById('prod-desc').value;
+            const detailedDesc = document.getElementById('prod-detailed-desc').value; // NUEVO
             const price = parseFloat(document.getElementById('prod-price').value);
             const category = document.getElementById('prod-category').value;
             const available = document.getElementById('prod-available').checked;
@@ -520,7 +508,14 @@
                 }
 
                 const productData = {
-                    restaurant: RESTAURANT_NAME, name, description: desc, price, category, image: imageUrl, available,
+                    restaurant: RESTAURANT_NAME, 
+                    name, 
+                    description: desc, 
+                    detailedDescription: detailedDesc, // NUEVO
+                    price, 
+                    category, 
+                    image: imageUrl, 
+                    available,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
 
@@ -548,6 +543,7 @@
             document.getElementById('edit-product-id').value = p.id;
             document.getElementById('prod-name').value = p.name;
             document.getElementById('prod-desc').value = p.description || '';
+            document.getElementById('prod-detailed-desc').value = p.detailedDescription || ''; // NUEVO
             document.getElementById('prod-price').value = p.price;
             document.getElementById('prod-category').value = p.category;
             document.getElementById('prod-available').checked = p.available;
@@ -565,6 +561,7 @@
             document.getElementById('edit-product-id').value = '';
             document.getElementById('prod-name').value = '';
             document.getElementById('prod-desc').value = '';
+            document.getElementById('prod-detailed-desc').value = ''; // NUEVO
             document.getElementById('prod-price').value = '';
             document.getElementById('prod-category').value = '';
             document.getElementById('prod-available').checked = true;
@@ -651,94 +648,62 @@
         }
 
         function openHistoricalModal() {
-    const modal = document.getElementById('historical-modal');
-    modal.style.display = 'flex';
-    
-    // Calcular totales
-    const totalHistorical = orders.reduce((sum, o) => sum + (o.total || 0), 0);
-    document.getElementById('modal-total').textContent = '$' + totalHistorical.toLocaleString('es-MX');
-    document.getElementById('modal-count').textContent = orders.length;
-    
-    // Agrupar ventas por día (CORREGIDO PARA ZONA HORARIA)
-    const dailySales = {};
-    
-    orders.forEach(order => {
-        if (!order.timestamp) return;
-        
-        // Obtener la fecha local correctamente
-        const date = order.timestamp.toDate();
-        
-        // Crear clave consistente usando solo día/mes/año (sin hora)
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const year = date.getFullYear();
-        const dateKey = `${year}-${month}-${day}`; // Formato consistente: 2026-10-23
-        
-        // Formato para mostrar: "Viernes, 23 De Octubre De 2026"
-        const displayDate = date.toLocaleDateString('es-MX', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-        
-        const timeKey = date.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
-        
-        if (!dailySales[dateKey]) {
-            dailySales[dateKey] = { 
-                total: 0, 
-                orders: [], 
-                date: date,
-                displayDate: displayDate 
-            };
+            const modal = document.getElementById('historical-modal');
+            modal.style.display = 'flex';
+            
+            const totalHistorical = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+            document.getElementById('modal-total').textContent = '$' + totalHistorical.toLocaleString('es-MX');
+            document.getElementById('modal-count').textContent = orders.length;
+            
+            const dailySales = {};
+            orders.forEach(order => {
+                if (!order.timestamp) return;
+                const date = order.timestamp.toDate();
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                const dateKey = `${year}-${month}-${day}`;
+                const displayDate = date.toLocaleDateString('es-MX', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                const timeKey = date.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+                
+                if (!dailySales[dateKey]) {
+                    dailySales[dateKey] = { total: 0, orders: [], date: date, displayDate: displayDate };
+                }
+                dailySales[dateKey].total += order.total || 0;
+                dailySales[dateKey].orders.push({ time: timeKey, customer: order.customerName, total: order.total, status: order.status });
+            });
+            
+            const sortedDates = Object.keys(dailySales).sort((a, b) => new Date(b) - new Date(a));
+            const container = document.getElementById('daily-breakdown');
+            container.innerHTML = '';
+            
+            if (sortedDates.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">No hay ventas registradas aún.</p>';
+                return;
+            }
+            
+            sortedDates.forEach(dateKey => {
+                const dayData = dailySales[dateKey];
+                const dayDiv = document.createElement('div');
+                dayDiv.style.cssText = 'background: #f8f9fa; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; border-left: 4px solid #ff6b35;';
+                const ordersHTML = dayData.orders.map(o => `
+                    <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb; font-size: 0.85rem;">
+                        <span>🕐 ${o.time} - ${o.customer}</span>
+                        <span style="font-weight: 600; color: #25d366;">$${o.total}</span>
+                    </div>
+                `).join('');
+                
+                dayDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <h4 style="text-transform: capitalize; color: #2c3e50; margin: 0;"> ${dayData.displayDate}</h4>
+                        <span style="background: #25d366; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 700; font-size: 0.9rem;">$${dayData.total.toLocaleString('es-MX')}</span>
+                    </div>
+                    <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">${dayData.orders.length} pedido${dayData.orders.length > 1 ? 's' : ''}</div>
+                    ${ordersHTML}
+                `;
+                container.appendChild(dayDiv);
+            });
         }
-        dailySales[dateKey].total += order.total || 0;
-        dailySales[dateKey].orders.push({ 
-            time: timeKey, 
-            customer: order.customerName, 
-            total: order.total, 
-            status: order.status 
-        });
-    });
-    
-    // Ordenar por fecha (más reciente primero)
-    const sortedDates = Object.keys(dailySales).sort((a, b) => {
-        return new Date(b) - new Date(a);
-    });
-    
-    // Renderizar desglose
-    const container = document.getElementById('daily-breakdown');
-    container.innerHTML = '';
-    
-    if (sortedDates.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">No hay ventas registradas aún.</p>';
-        return;
-    }
-    
-    sortedDates.forEach(dateKey => {
-        const dayData = dailySales[dateKey];
-        const dayDiv = document.createElement('div');
-        dayDiv.style.cssText = 'background: #f8f9fa; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; border-left: 4px solid #ff6b35;';
-        
-        const ordersHTML = dayData.orders.map(o => `
-            <div style="display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #e5e7eb; font-size: 0.85rem;">
-                <span>🕐 ${o.time} - ${o.customer}</span>
-                <span style="font-weight: 600; color: #25d366;">$${o.total}</span>
-            </div>
-        `).join('');
-        
-        dayDiv.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                <h4 style="text-transform: capitalize; color: #2c3e50; margin: 0;"> ${dayData.displayDate}</h4>
-                <span style="background: #25d366; color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: 700; font-size: 0.9rem;">$${dayData.total.toLocaleString('es-MX')}</span>
-            </div>
-            <div style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">${dayData.orders.length} pedido${dayData.orders.length > 1 ? 's' : ''}</div>
-            ${ordersHTML}
-        `;
-        
-        container.appendChild(dayDiv);
-    });
-}
 
         function closeHistoricalModal() {
             document.getElementById('historical-modal').style.display = 'none';
@@ -759,7 +724,7 @@
             if (confirm('¿Eliminar este pedido?')) await db.collection('pedidos').doc(id).delete();
         }
     </script>
-        <button id="install-btn-admin" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #2c3e50; color: white; border: none; padding: 1rem 1.5rem; border-radius: 50px; font-weight: 700; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 9999; font-family: 'Poppins', sans-serif;">
+    <button id="install-btn-admin" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #2c3e50; color: white; border: none; padding: 1rem 1.5rem; border-radius: 50px; font-weight: 700; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; z-index: 9999; font-family: 'Poppins', sans-serif;">
         📲 Instalar Panel
     </button>
 
