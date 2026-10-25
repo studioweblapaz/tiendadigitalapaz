@@ -85,7 +85,16 @@
         .product-modal-content { background: white; border-radius: 15px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative; animation: slideUp 0.3s ease-out; }
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .modal-close-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; border: none; width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
-        .modal-image { width: 100%; height: 300px; object-fit: cover; border-radius: 15px 15px 0 0; }
+        
+        /* Popup - Imagen optimizada */
+        .modal-image { 
+            width: 100%; 
+            height: 350px; /* Más alto para mejor visualización */
+            object-fit: cover; 
+            object-position: center top; /* Prioriza mostrar la parte superior de la imagen */
+            border-radius: 15px 15px 0 0; 
+        }
+        
         .modal-body { padding: 1.5rem; }
         .modal-title { font-size: 1.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 0.5rem; }
         .modal-price { font-size: 1.8rem; font-weight: 700; color: var(--primary-color); margin-bottom: 1rem; }
@@ -118,7 +127,7 @@
             <span class="cart-count" id="cart-count">0 productos</span>
             <span class="cart-total" id="cart-total">Total: $0</span>
         </div>
-        <button class="checkout-btn" onclick="openCheckout()">Ver pedido 🛒</button>
+        <button class="checkout-btn" onclick="openCheckout()">Ver pedido </button>
     </div>
 
     <div class="success-message" id="success-message">
@@ -128,9 +137,9 @@
     </div>
 
     <footer class="footer">
-        <p id="footer-address">📍 Dirección</p>
+        <p id="footer-address"> Dirección</p>
         <p id="footer-hours">🕐 Horario de atención</p>
-        <p id="footer-phone">📞 Teléfono de contacto</p>
+        <p id="footer-phone"> Teléfono de contacto</p>
     </footer>
 
     <!-- Modal de Detalle del Producto -->
