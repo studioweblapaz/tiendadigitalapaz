@@ -7,7 +7,7 @@
     
     <!-- PWA Estática apuntando a tu logo subido en GitHub -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff6b35">
+    <meta name="theme-color" content="#0047AB">
     <link rel="icon" href="./logo.png" id="dynamic-favicon">
     <link rel="apple-touch-icon" href="./logo.png" id="dynamic-apple-icon">
 
@@ -43,17 +43,16 @@
         .menu-item.unavailable { opacity: 0.6; }
         .menu-item.unavailable .menu-item-image { filter: grayscale(100%); }
         
-        /* MEJORA: Imagen completa sin recortes en la tarjeta general */
-        .menu-item-image { 
-            width: 100%; 
-            height: 220px; 
-            object-fit: contain; /* Muestra la imagen completa sin recortar */
-            background-color: #f8f9fa; /* Fondo limpio para espacios vacíos */
-            padding: 15px; /* Espacio para que la imagen no toque los bordes */
-            cursor: pointer; 
-            transition: transform 0.2s; 
-        }
-        .menu-item-image:hover { transform: scale(1.03); }
+        /* VISTA GENERAL - Imagen que ocupa todo el espacio sin recortar */
+.menu-item-image { 
+    width: 100%; 
+    height: 220px; 
+    object-fit: contain; /* Muestra la imagen completa sin recortar */
+    background-color: var(--card-background); /* Fondo del mismo color que la tarjeta */
+    cursor: pointer; 
+    transition: transform 0.2s; 
+}
+.menu-item-image:hover { transform: scale(1.03); }
         
         .menu-item-content { padding: 1rem; }
         .menu-item-category { font-size: 0.75rem; color: var(--primary-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
