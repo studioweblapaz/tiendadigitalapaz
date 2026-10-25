@@ -42,8 +42,18 @@
         .menu-item:hover { transform: translateY(-5px); }
         .menu-item.unavailable { opacity: 0.6; }
         .menu-item.unavailable .menu-item-image { filter: grayscale(100%); }
-        .menu-item-image { width: 100%; height: 200px; object-fit: cover; cursor: pointer; transition: transform 0.2s; }
+        
+        /* Vista general - Imagen optimizada */
+        .menu-item-image { 
+            width: 100%; 
+            height: 220px; /* Un poco más alto para imágenes verticales */
+            object-fit: cover; 
+            object-position: center top; /* Prioriza mostrar la parte superior de la imagen */
+            cursor: pointer; 
+            transition: transform 0.2s; 
+        }
         .menu-item-image:hover { transform: scale(1.03); }
+        
         .menu-item-content { padding: 1rem; }
         .menu-item-category { font-size: 0.75rem; color: var(--primary-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
         .menu-item-name { font-size: 1.25rem; font-weight: 700; margin: 0.5rem 0; color: var(--secondary-color); }
