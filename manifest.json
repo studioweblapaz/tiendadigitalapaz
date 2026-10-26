@@ -1,11 +1,11 @@
 {
   "name": "Tienda Digital",
-  "short_name": "Tienda Digital",
-  "description": "Catálago digital interactivo",
+  "short_name": "Tienda",
+  "description": "Catálogo digital interactivo",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#ff6b35",
+  "theme_color": "#0047AB",
   "orientation": "any",
   "icons": [
     {
