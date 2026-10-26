@@ -135,7 +135,7 @@
             <span class="cart-count" id="cart-count">0 productos</span>
             <span class="cart-total" id="cart-total">Total: $0</span>
         </div>
-        <button class="checkout-btn" onclick="openCheckout()">Ver pedido </button>
+        <button class="checkout-btn" onclick="openCheckout()">Ver pedido 🛒</button>
     </div>
 
     <div class="success-message" id="success-message">
@@ -233,7 +233,7 @@
             }
         });
 
-        // 3. CARGAR PRODUCTOS
+        // 3. CARGAR PRODUCTOS (CON CORRECCIÓN DE AGRUPACIÓN DE CATEGORÍAS)
         db.collection('productos')
             .where('restaurant', '==', RESTAURANT_NAME)
             .onSnapshot((snapshot) => {
@@ -242,8 +242,17 @@
                 
                 snapshot.forEach((doc) => {
                     const product = { id: doc.id, ...doc.data() };
+                    
+                    // CORRECCIÓN: Normalizar la categoría para agruparlas correctamente
+                    if (product.category) {
+                        const cleanCat = product.category.trim();
+                        product.category = cleanCat.charAt(0).toUpperCase() + cleanCat.slice(1).toLowerCase();
+                    } else {
+                        product.category = 'Sin categoría';
+                    }
+                    
                     menuData.push(product);
-                    if (product.category) categories.add(product.category);
+                    categories.add(product.category);
                 });
 
                 renderCategories(Array.from(categories));
@@ -254,14 +263,16 @@
         function renderCategories(categories) {
             const nav = document.getElementById('categories-nav');
             nav.innerHTML = categories.map(cat => 
-                `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">${cat.charAt(0).toUpperCase() + cat.slice(1)}</button>`
+                `<button class="category-btn ${cat === currentCategory ? 'active' : ''}" onclick="filterCategory('${cat}')">${cat}</button>`
             ).join('');
         }
 
         function filterCategory(category) {
             currentCategory = category;
             document.querySelectorAll('.category-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.toLowerCase() === category || (category === 'todos' && btn.textContent.toLowerCase() === 'todos'));
+                const btnText = btn.textContent;
+                const isActive = (category === 'todos' && btnText === 'Todos') || btnText === category;
+                btn.classList.toggle('active', isActive);
             });
             renderMenu();
         }
